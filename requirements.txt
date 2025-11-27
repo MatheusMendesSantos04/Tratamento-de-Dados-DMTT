@@ -1,0 +1,6 @@
+pandas
+pdfplumber
+openpyxl
+python-dotenv
+PySide6
+PyQt6
