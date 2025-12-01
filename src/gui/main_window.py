@@ -214,6 +214,7 @@ class MainWindow(QMainWindow):
         progress = QProgressDialog(f"Carregando {filename}...", "Cancelar", 0, 0, self)
         progress.setWindowModality(Qt.WindowModal)
         progress.show()
+        self._current_progress = progress #
         
         # Cria Worker
         worker = LoadWorker(path)
@@ -238,7 +239,6 @@ class MainWindow(QMainWindow):
         # Adiciona à lista de arquivos
         self.loaded_files.append(filename)
         self.all_dataframes.append(df)
-        
         # Se é o primeiro arquivo, apenas exibe
         if len(self.all_dataframes) == 1:
             self.current_df = df
