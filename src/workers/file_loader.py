@@ -1,7 +1,7 @@
 from PySide6.QtCore import QObject, Signal, QRunnable
 import traceback
-from src.file_handler import load_file
-from src.data_processing import fix_columns, normalize_dataframe
+from file_handler import load_file
+from data_processing import fix_columns, normalize_dataframe
 
 class WorkerSignals(QObject):
     finished = Signal()

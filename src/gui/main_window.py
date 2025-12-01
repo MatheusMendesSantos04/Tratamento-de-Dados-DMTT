@@ -35,11 +35,11 @@ import pandas as pd
 from pathlib import Path
 
 # Importações locais
-from src.file_handler import load_file, compare_columns
-from src.data_processing import normalize_dataframe, fix_columns, list_columns, select_columns
-from src.gui.file_picker import choose_file
-from src.gui.table_viewer import DataFrameView
-from src.workers.file_loader import LoadWorker
+from file_handler import load_file, compare_columns
+from data_processing import normalize_dataframe, fix_columns, list_columns, select_columns
+from gui.file_picker import choose_file
+from gui.table_viewer import DataFrameView
+from workers.file_loader import LoadWorker
 
 
 class MainWindow(QMainWindow):
