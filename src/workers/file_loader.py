@@ -8,24 +8,47 @@ class WorkerSignals(QObject):
     error = Signal(str)
     result = Signal(object)
 
-class LoadeWorker(QRunnable):
+
+class LoadWorker(QRunnable):
     def __init__(self, path):
         super().__init__()
         self.path = path
         self.signals = WorkerSignals()
+        self._canceled = False
+
+    
+    def stop(self):
+        self._canceled = True
 
     def run(self):
+        print(f"[Worker] Iniciando leitura: {self.path}")
         try:
-            df = load_file(self.path)
-            df = fix_columns(df)
-            df = normalize_dataframe(df)
+            if self._canceled:
+                print("[Worker] Cancelado antes de iniciar.")
+                self.signals.finished.emit()
+                return
+            
 
-            # ENVIA O DATAFRAME
+            df = load_file(self.path)
+            print("[Worker] load_file OK:", type(df))
+            if self._canceled:
+                print("[Worker] Cancelado antes de iniciar.")
+                self.signals.finished.emit()
+                return
+
+            df = fix_columns(df)
+            print("[Worker] fix_columns OK:", df.shape)
+
+            df = normalize_dataframe(df)
+            print("[Worker] normalize_dataframe OK:", df.shape)
+
             self.signals.result.emit(df)
 
         except Exception:
+            print("[Worker] ERRO:")
+            print(traceback.format_exc())
             self.signals.error.emit(traceback.format_exc())
             return
 
-        # SINAL FINAL
         self.signals.finished.emit()
+        print("[Worker] Finalizado com sucesso.")
